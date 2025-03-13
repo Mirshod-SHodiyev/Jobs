@@ -9,7 +9,7 @@ Route::get('/', function () {
 
 Route::get('setwebhook', function () {
     $response = Telegram::setWebhook([
-        'url' =>'https://e129-185-213-229-9.ngrok-free.app/api/telegram/webhook'
+        'url' =>'https://da26-188-113-245-47.ngrok-free.app/api/telegram/webhook'
     ]);
 
     return $response;
