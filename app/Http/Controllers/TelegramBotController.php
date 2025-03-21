@@ -42,6 +42,11 @@ class TelegramBotController extends Controller
             } else {
                 $commandHandler = BotCommandFactory::getCommandHandler($messageText);
             }
+            if ($state !== 'default' || mb_strtolower($messageText) === 'rezume joylash') {
+                $commandHandler = new \App\Commands\RezumeCommand();
+            } else {
+                $commandHandler = BotCommandFactory::getCommandHandler($messageText);
+            }
 
             // 🟢 Buyruq topildi, handle() funksiyasini ishga tushiramiz
             if ($commandHandler) {

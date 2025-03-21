@@ -10,7 +10,7 @@ class OquvMarkazCommand
     {
         Telegram::sendMessage([
             'chat_id' => $chatId,
-            'text' => "O'quv markaz bo'limi: O'quv markazi nomini kiriting."
+            'text' => "O'quv markaz joylash bo'limi yaqinda ishga tushadi"
         ]);
     }
 }

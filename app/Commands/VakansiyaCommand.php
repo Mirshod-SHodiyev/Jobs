@@ -146,14 +146,14 @@ class VakansiyaCommand
         
           $adminChatId = config('app.admin_chat_id');
 
-          $adminMessage= "📋*Ish bo'yicha:* \n\n";
-          $adminMessage.= "🏢 *Kompaniya:* $workplace\n\n";
-          $adminMessage.= "🛠  *Texnologiya:* $technology\n\n";
-          $adminMessage.= "💼 *Tajriba:* $experience\n\n";
-          $adminMessage.= "📌 *Manzil:* $address\n\n";
-          $adminMessage.= "📞 *Murojat:* $application\n\n";
-          $adminMessage.= "💰 *Ish haqi:* $salary\n\n";
-          $adminMessage.= "🕒 *Ish vaqt:* $time\n\n";
+          $adminMessage= "📋*Ish bo'yicha:* \n";
+          $adminMessage.= "🏢 *Kompaniya:* $workplace\n";
+          $adminMessage.= "🛠  *Texnologiya:* $technology\n";
+          $adminMessage.= "💼 *Tajriba:* $experience\n";
+          $adminMessage.= "📌 *Manzil:* $address\n";
+          $adminMessage.= "📞 *Murojat:* $application\n";
+          $adminMessage.= "💰 *Ish haqi:* $salary\n";
+          $adminMessage.= "🕒 *Ish vaqt:* $time\n";
           $adminMessage.= "💡 *Qo'shimcha ma'lumot:* $extra\n\n";
           $adminMessage .= "#" . str_replace(' ', '_', trim($workplace))." " ;
           $adminMessage .= "#ish #vakansiya ";
@@ -175,7 +175,7 @@ class VakansiyaCommand
             Cache::forget("vacancy_$chatId.address");
             Cache::forget("vacancy_$chatId.application");
             Cache::forget("vacancy_$chatId.salary");
-            Cache::forget("vacancy_$chatId.exstra");
+            Cache::forget("vacancy_$chatId.extra");
 
             $keyboard = Keyboard::make()
             ->setResizeKeyboard(true)

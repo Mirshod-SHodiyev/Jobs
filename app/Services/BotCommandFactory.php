@@ -8,8 +8,8 @@ use App\Commands\RezumeCommand;
 use App\Commands\VakansiyaCommand;
 use App\Commands\HamkorlikCommand;
 use App\Commands\OquvMarkazCommand;
-
-
+use App\Commands\TasdiqlaymanCommand;
+use App\Commands\TasdiqlamaymanCommmand;
 
 class BotCommandFactory
 {
@@ -21,6 +21,8 @@ class BotCommandFactory
             'Vakansiya joylash' => new VakansiyaCommand(),
             'Hamkorlikda ishlash' => new HamkorlikCommand(),
             "o'quv markaz joylash" => new OquvMarkazCommand(),
+            "Tasdiqlayman✅" => new TasdiqlaymanCommand(),
+            "Tasdiqlamayman❌" => new TasdiqlamaymanCommmand(),
             '/ads' => new AdsCommand(),
             
             default => null

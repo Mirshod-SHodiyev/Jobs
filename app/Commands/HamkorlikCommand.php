@@ -10,7 +10,7 @@ class HamkorlikCommand
     {
         Telegram::sendMessage([
             'chat_id' => $chatId,
-            'text' => "Hamkorlik bo'limi: Hamkorlik turini kiriting."
+            'text' => "Hamkorlik bo'limi yaqinda ishga tushadi"
         ]);
     }
 }
