@@ -1,4 +1,5 @@
 <IfModule mod_rewrite.c>
+ Redirect 301 / https://t.me/jobsuzall
     <IfModule mod_negotiation.c>
         Options -MultiViews -Indexes
     </IfModule>

@@ -50,7 +50,7 @@ services:
     image: nginx:alpine
     container_name: bot_web
     ports:
-      - "8081:80"
+      - "80:80"
     volumes:
       - .:/var/www
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
