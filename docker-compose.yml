@@ -54,6 +54,7 @@ services:
     volumes:
       - .:/var/www
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
+      - /path/to/host/certs:/etc/ssl/certs/jobuzall_uz
       
     networks:
       - app-network
