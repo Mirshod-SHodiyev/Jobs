@@ -54,7 +54,9 @@ services:
     volumes:
       - .:/var/www
       - ./nginx.conf:/etc/nginx/conf.d/default.conf
-      - ./jobuzall_uz:/etc/ssl/certs/jobuzall_uz
+      - ./jobuzall_uz/jobuzall_uz.crt:/etc/ssl/certs/jobuzall_uz.crt
+      - ./jobuzall_uz/jobuzall_uz.key:/etc/ssl/certs/jobuzall_uz.key
+
     networks:
       - app-network
     depends_on:
