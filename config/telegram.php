@@ -131,8 +131,7 @@ return [
     */
     'commands' => [
         HelpCommand::class,
-        
-        
+      
     ],
 
     /*
