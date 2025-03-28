@@ -14,6 +14,6 @@ Artisan::command('inspire', function () {
 })->purpose('Display an inspiring quote');
 
 
-Artisan::starting(function ($artisan) {
-    $artisan->resolve(BotCommand::class);
-});
+// Artisan::starting(function ($artisan) {
+//     $artisan->resolve(BotCommand::class);
+// });

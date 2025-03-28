@@ -1,7 +1,8 @@
 <?php
 
 namespace App\Commands;
-use Telegram\Bot\Commands\Command;
+
+use Illuminate\Console\Command;
 
 class BotCommand extends Command
 {
