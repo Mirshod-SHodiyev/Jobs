@@ -7,10 +7,27 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('setwebhook', function () {
+// Webhook o'rnatish uchun endpoint
+Route::get('/setwebhook', function () {
     $response = Telegram::setWebhook([
-        'url' =>'https://jobuzall.uz/telegram/webhook'
+        'url' => 'https://jobuzall.uz/telegram/webhook',
+        'secret_token' => env('TELEGRAM_WEBHOOK_SECRET'),
+        'max_connections' => 50,
+        'allowed_updates' => ['message', 'callback_query']
     ]);
+    
+    return response()->json($response);
+});
 
-    return $response;
+// Telegram webhook uchun asosiy endpoint
+Route::post('/telegram/webhook', function () {
+    // Secret tokenni tekshirish
+    if (request()->header('X-Telegram-Bot-Api-Secret-Token') !== env('TELEGRAM_WEBHOOK_SECRET')) {
+        abort(403, 'Invalid token');
+    }
+    
+    // Xabarni qayta ishlash
+    $update = Telegram::commandsHandler(true);
+    
+    return response()->json(['status' => 'success']);
 });
