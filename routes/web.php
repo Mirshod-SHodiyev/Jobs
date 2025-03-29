@@ -21,7 +21,7 @@ Route::get('/setwebhook', function () {
 
 // Telegram webhook uchun asosiy endpoint
 Route::post('/telegram/webhook', function () {
-    // Secret tokenni tekshirish
+    // Secret tokenni tekshirish: Telegram API so'rovi kelganda u shu header orqali yuboriladi
     if (request()->header('X-Telegram-Bot-Api-Secret-Token') !== env('TELEGRAM_WEBHOOK_SECRET')) {
         abort(403, 'Invalid token');
     }
