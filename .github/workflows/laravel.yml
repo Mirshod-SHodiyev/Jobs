@@ -52,6 +52,6 @@ jobs:
           script: |
             cd /var/www/jobuzall.uz
             git pull origin main
-            docker-compose -f docker-compose.yml up -d --build
+            docker-compose -f docker compose.yml up -d --build
             docker exec rent_app php artisan optimize:clear
             docker exec rent_app php artisan migrate --force
