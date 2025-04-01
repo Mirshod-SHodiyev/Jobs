@@ -2,10 +2,16 @@
 
 use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
+use App\Http\Controllers\HomeController;
+
+// Route::get('/', function () {
+//     return view('welcome');
+// });
 
 Route::get('/', function () {
-    return view('welcome');
+    return view('home');
 });
+
 
 // Webhook o'rnatish uchun endpoint
 Route::get('/setwebhook', function () {
