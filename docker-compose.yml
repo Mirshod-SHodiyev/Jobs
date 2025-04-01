@@ -87,8 +87,8 @@ services:
     networks:
       - app-network
     command: bash -c "npm install && npm run build"
-  volumes:
-  postgres_data: 
+volumes:
+  postgres_data:
 
 networks:
   app-network:
