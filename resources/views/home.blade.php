@@ -1,6 +1,11 @@
 @extends('layouts.app')
 
 @section('content')
+    <!-- Agar sahifangizda boshqa bo‘limlar bo‘lsa, ularni shu yerga qo‘shing -->
+    <section id="features" class="py-5">
+        
+  
+   
     <!-- CTA Section -->
     <section class="py-5 bg-primary text-white">
         <div class="container text-center">
