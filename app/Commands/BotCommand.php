@@ -12,7 +12,6 @@ class BotCommand extends Command
     public function handle()
     {
         $this->info('Bot started successfully!');
-        
-        
+        // Bu yerga bot logikasini yozing
     }
 }
