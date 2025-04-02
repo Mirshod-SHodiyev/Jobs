@@ -3,6 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="https://jobuzall.uz/favicon-32x32.png">
     <title> Job.uz🇺🇿 - Ish Qidirish va Topish | O‘zbekistondagi Eng Yaxshi Platforma</title>
     <meta name="description" content="Job.uz🇺🇿 - Ish qidirish va topish oson! 1000+ vakansiya, 500+ kompaniya, 10,000+ foydalanuvchi biz bilan ish topmoqda.">
 
