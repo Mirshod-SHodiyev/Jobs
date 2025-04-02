@@ -9,119 +9,127 @@ use Telegram\Bot\Keyboard\Keyboard;
 
 class VakansiyaCommand
 {
-   
-
     public function handle(Request $request)
     {
         $update = Telegram::getWebhookUpdate();
         $chatId = $update->getMessage()->getChat()->getId();
         $messageText = trim($update->getMessage()->getText());
 
-        $state = Cache::get("user_state_$chatId", 'default');
+        // Endi umumiy user_state o'rniga vakansiya_state dan foydalanamiz
+        $state = Cache::get("vakansiya_state_$chatId", 'default');
 
         if ($messageText === 'Vakansiya joylash') {
-            Cache::put("user_state_$chatId", 'asking_workplace', now()->addMinutes(5));
+            Cache::put("vakansiya_state_$chatId", 'asking_workplace', now()->addMinutes(10));
 
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Vakansiya joylash bo‘yicha ariza.Sizga bir necha savolar beriladi savolarni har biriga javob bering",
-
+                'text' => "Vakansiya joylash bo‘yicha ariza. Sizga bir necha savollar beriladi, har biriga javob bering.",
             ]);
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Kampaniya nomini kiriting:"
-            ]);
-        }
-         elseif ($state === 'asking_workplace') {
-            Cache::put("vacancy_$chatId.workplace", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_technology', now()->addMinutes(5));
+            $keyboard = Keyboard::make()
+            ->setResizeKeyboard(true)
+            ->setOneTimeKeyboard(false) // Tugmalar yo‘qolmasligi uchun
+            ->row([Keyboard::button("Orqaga")]); // Massiv qilib yozamiz
         
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Ishda talab qilinadigan texnologiyalarni kiriting:"
+                'text' => "Tashkilot nomini kiriting:",
+                'reply_markup' => $keyboard,
+            ]);
+        }
+        
+        elseif ($state === 'asking_workplace') {
+            Cache::put("vacancy_$chatId.workplace", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_technology', now()->addMinutes(10));
+        
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Ishda talab qilinadigan texnologiyalarni kiriting masalan php , javascript, python agar  boshqa kasb bo'lsa xodim nimani bilishini yozing vergul bilan ajratib yozing"
             ]);
         }
         elseif ($state === 'asking_technology') {
-            Cache::put("vacancy_$chatId.technology", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_experience', now()->addMinutes(5)); 
+            Cache::put("vacancy_$chatId.technology", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_experience', now()->addMinutes(10)); 
         
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Ishda talab qilinadigan tajribani kiriting:"
+                'text' => "Ishda talab qilinadigan tajribangizni kiriting masalan 3 yil, 1 yil yoki 2 yil"
             ]);
         }
         elseif ($state === 'asking_experience') {
-            Cache::put("vacancy_$chatId.experience", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_address', now()->addMinutes(5));
+            Cache::put("vacancy_$chatId.experience", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_address', now()->addMinutes(10));
         
             Telegram::sendMessage([
                 'chat_id' => $chatId,
-                'text' => "Ish joyi manzilini kiriting(onlayn yoki ofline):"
-            ]);
-        }elseif ($state === 'asking_address') {
-            Cache::put("vacancy_$chatId.address", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_application', now()->addMinutes(5));
-        
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Murojat uchun telegram manzilini yoki nomerini kiriting :"
-            ]);
-        }elseif ($state === 'asking_application') {
-            Cache::put("vacancy_$chatId.application", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_time', now()->addMinutes(5));
-        
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Ish vaqtini  kiriting:"
-            ]);
-        }elseif ($state === 'asking_time') {
-            Cache::put("vacancy_$chatId.time", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_salary', now()->addMinutes(5));
-        
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Ish haqi miqdorini kiriting:"
-            ]);
-        }elseif ($state === 'asking_salary') {
-            Cache::put("vacancy_$chatId.salary", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'asking_extra', now()->addMinutes(5));
-        
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "Qo'shimcha ma'lumot kiriting:"
+                'text' => "Tashkilotnin manzilini kiriting agar onlayn  bo'lsa onlayn deb yozing:"
             ]);
         }
-
+        elseif ($state === 'asking_address') {
+            Cache::put("vacancy_$chatId.address", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_application', now()->addMinutes(10));
+        
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Murojat uchun telegram manzilini yoki nomerini kiriting masalan @username yoki +998901234567 silka qoldiring :"
+            ]);
+        }
+        elseif ($state === 'asking_application') {
+            Cache::put("vacancy_$chatId.application", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_time', now()->addMinutes(10));
+        
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Ish vaqtini kiriting: masalan 8:00 - 17:00"
+            ]);
+        }
+        elseif ($state === 'asking_time') {
+            Cache::put("vacancy_$chatId.time", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_salary', now()->addMinutes(10));
+        
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Ish haqi miqdorini kiriting masalan 100$:"
+            ]);
+        }
+        elseif ($state === 'asking_salary') {
+            Cache::put("vacancy_$chatId.salary", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'asking_extra', now()->addMinutes(10));
+        
+            Telegram::sendMessage([
+                'chat_id' => $chatId,
+                'text' => "Qo'shimcha ma'lumot kiriting masalan sizni Tashkilotiz xodimga nima taklif beradi yoki xodimdan yana qo'shimcha nimani talab qilasiz"
+            ]);
+        }
         elseif ($state === 'asking_extra') {
-            Cache::put("vacancy_$chatId.extra", $messageText, now()->addMinutes(5));
-            Cache::put("user_state_$chatId", 'confirming', now()->addMinutes(5));
+            Cache::put("vacancy_$chatId.extra", $messageText, now()->addMinutes(10));
+            Cache::put("vakansiya_state_$chatId", 'confirming', now()->addMinutes(10));
         
-           
             $workplace = Cache::get("vacancy_$chatId.workplace");
-            $technology = Cache::get("vacancy_$chatId.technology");
-            $experience = Cache::get("vacancy_$chatId.experience");
-            $address = Cache::get("vacancy_$chatId.address");
-            $application = Cache::get("vacancy_$chatId.application");
-            $time = Cache::get("vacancy_$chatId.time");
-            $salary = Cache::get("vacancy_$chatId.salary");
-            $extra = Cache::get("vacancy_$chatId.extra");
-
+            $vacancyTechnology = Cache::get("vacancy_$chatId.technology");
+            $vacancyExperience = Cache::get("vacancy_$chatId.experience");
+            $vacancyAddress = Cache::get("vacancy_$chatId.address");
+            $vacancyApplication = Cache::get("vacancy_$chatId.application");
+            $vacancyTime = Cache::get("vacancy_$chatId.time");
+            $vacancySalary = Cache::get("vacancy_$chatId.salary");
+            $vacancyExtra = Cache::get("vacancy_$chatId.extra");
         
-            $message = "📋*Ish bo'yicha:* \n\n";
+            $message = "📢 *Yangi vakansiya:* \n\n";
             $message .= "🏢 *Kompaniya:* $workplace\n\n";
-            $message .= "🛠  *Texnologiya:* $technology\n\n";
-            $message .= "💼 *Tajriba:* $experience\n\n";
-            $message .= "📌 *Manzil:* $address\n\n";
-            $message .= "📞 *Murojat:* $application\n\n";
-            $message .= "💰 *Ish haqi:* $salary\n\n";
-            $message .= "🕒 *Ish vaqt:* $time\n\n";
-            $message .= "💡 *Qo'shimcha ma'lumot:* $extra\n\n";
-            $message .= "agar kiritgan malumotlar to'gri bo'lsa  'Tasdiqlayman' tugmasini bosing.";
-        
+            $message .= "🛠  *Texnologiya:* $vacancyTechnology\n\n"; // To'g'ri nomlash
+            $message .= "💼 *Tajriba:* $vacancyExperience\n\n"; // To'g'ri nomlash
+            $message .= "📌 *Manzil:* $vacancyAddress\n\n"; // To'g'ri nomlash
+            $message .= "📞 *Murojat:* $vacancyApplication\n\n"; // To'g'ri nomlash
+            $message .= "💰 *Ish haqi:* $vacancySalary\n\n"; // To'g'ri nomlash
+            $message .= "🕒 *Ish vaqt:* $vacancyTime\n\n"; // To'g'ri nomlash
+            $message .= "💡 *Qo'shimcha ma'lumot:* $vacancyExtra\n\n"; // To'g'ri nomlash
+            $message .= "Agar kiritgan malumotlar to'g'ri bo'lsa, 'Tasdiqlayman' tugmasini bosing.";
+                
             $keyboard = Keyboard::make()
                 ->setResizeKeyboard(true)
-               
-                ->row([Keyboard::button('Tasdiqlayman✅'), Keyboard::button('Tasdiqlamayman❌')]);
+                ->row([
+                    Keyboard::button('Tasdiqlayman✅'),
+                    Keyboard::button('Tasdiqlamayman❌')
+                ]);
         
             Telegram::sendMessage([
                 'chat_id' => $chatId,
@@ -130,110 +138,7 @@ class VakansiyaCommand
                 'reply_markup' => $keyboard
             ]);
         }
-        elseif ($state === 'confirming' && $messageText === 'Tasdiqlayman✅') {
-            $workplace = Cache::get("vacancy_$chatId.workplace");
-            $technology = Cache::get("vacancy_$chatId.technology");
-            $experience = Cache::get("vacancy_$chatId.experience");
-            $address = Cache::get("vacancy_$chatId.address");
-            $application = Cache::get("vacancy_$chatId.application");
-            $time = Cache::get("vacancy_$chatId.time");
-            $salary = Cache::get("vacancy_$chatId.salary");
-            $extra = Cache::get("vacancy_$chatId.extra");
-
-           
-         
-                    
-        
-          $adminChatId = config('app.admin_chat_id');
-
-          $adminMessage= "📋*Ish bo'yicha:* \n";
-          $adminMessage.= "🏢 *Kompaniya:* $workplace\n";
-          $adminMessage.= "🛠  *Texnologiya:* $technology\n";
-          $adminMessage.= "💼 *Tajriba:* $experience\n";
-          $adminMessage.= "📌 *Manzil:* $address\n";
-          $adminMessage.= "📞 *Murojat:* $application\n";
-          $adminMessage.= "💰 *Ish haqi:* $salary\n";
-          $adminMessage.= "🕒 *Ish vaqt:* $time\n";
-          $adminMessage.= "💡 *Qo'shimcha ma'lumot:* $extra\n\n";
-          $adminMessage .= "#" . str_replace(' ', '_', trim($workplace))." " ;
-          $adminMessage .= "#ish #vakansiya ";
-          $adminMessage .= "#" . str_replace(' ', '_', trim($workplace)) . " ";
-          $technologies = explode(',', $technology);
-          $formattedTechnologies = array_map(fn($tech) => '#' . trim($tech), $technologies);
-          $adminMessage .= implode(' ', $formattedTechnologies);
-          
-        Telegram::sendMessage([
-                'chat_id' => $adminChatId,
-                'text' => $adminMessage,
-                'parse_mode' => 'Markdown',
-               
-            ]);
-            Cache::forget("user_state_$chatId");
-            Cache::forget("vacancy_$chatId.workplace");
-            Cache::forget("vacancy_$chatId.technology");
-            Cache::forget("vacancy_$chatId.experience");
-            Cache::forget("vacancy_$chatId.address");
-            Cache::forget("vacancy_$chatId.application");
-            Cache::forget("vacancy_$chatId.salary");
-            Cache::forget("vacancy_$chatId.extra");
-
-            $keyboard = Keyboard::make()
-            ->setResizeKeyboard(true)
-            ->setOneTimeKeyboard(true)
-            ->row([
-                Keyboard::button('Vakansiya joylash'),
-                Keyboard::button('Rezume joylash'),
-            ])
-            ->row([
-                Keyboard::button('Hamkorlikda ishlash'),
-                Keyboard::button("o'quv markaz joylash")
-            ]);
+     
     
-            Telegram::sendMessage([
-                'chat_id' => $chatId,
-                'text' => "✅ Ma'lumotlaringiz admin tekshiruvidan o'tkazish uchun yuborildi.",
-                'parse_mode' => 'Markdown',
-                'reply_markup' => $keyboard
-            ]);
-         } elseif ($messageText === 'Tasdiqlamayman❌') {
-            Cache::forget("user_state_$chatId");
-            Cache::forget("vacancy_$chatId.workplace");
-            Cache::forget("vacancy_$chatId.technology");
-            Cache::forget("vacancy_$chatId.experience");
-            Cache::forget("vacancy_$chatId.address");
-            Cache::forget("vacancy_$chatId.application");
-            Cache::forget("vacancy_$chatId.salary");
-            Cache::forget("vacancy_$chatId.extra");
-
-           
-                $keyboard = Keyboard::make()
-                    ->setResizeKeyboard(true)
-                    ->setOneTimeKeyboard(true)
-                    ->row([
-                        Keyboard::button('Vakansiya joylash'),
-                        Keyboard::button('Rezume joylash'),
-                    ])
-                    ->row([
-                        Keyboard::button('Hamkorlikda ishlash'),
-                        Keyboard::button("O'quv markaz joylash")
-                    ]);
-
-                    Telegram::sendMessage([
-                        'chat_id' => $chatId,
-                        'text' => "❌ Ma'lumot yuborilmadi.",
-                        'reply_markup' => $keyboard
-                    ]);
-        }
-
-   
+    }
 }
-}
-
-
-
-
-
-
-
-
-

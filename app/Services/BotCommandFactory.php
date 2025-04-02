@@ -3,13 +3,15 @@
 namespace App\Services;
 
 use App\Commands\AdsCommand;
+use App\Commands\BackCommand;
 use App\Commands\StartCommand;
 use App\Commands\RezumeCommand;
 use App\Commands\VakansiyaCommand;
 use App\Commands\HamkorlikCommand;
 use App\Commands\OquvMarkazCommand;
 use App\Commands\TasdiqlaymanCommand;
-use App\Commands\TasdiqlamaymanCommmand;
+use App\Commands\TasdiqlamaymanCommand;
+
 
 class BotCommandFactory
 {
@@ -22,8 +24,9 @@ class BotCommandFactory
             'Hamkorlikda ishlash' => new HamkorlikCommand(),
             "o'quv markaz joylash" => new OquvMarkazCommand(),
             "Tasdiqlayman✅" => new TasdiqlaymanCommand(),
-            "Tasdiqlamayman❌" => new TasdiqlamaymanCommmand(),
+            "Tasdiqlamayman❌" => new TasdiqlamaymanCommand(),
             '/ads' => new AdsCommand(),
+            "Orqaga"=> new BackCommand(),
             
             default => null
         };

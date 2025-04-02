@@ -16,7 +16,7 @@ Route::get('/', function () {
 // Webhook o'rnatish uchun endpoint
 Route::get('/setwebhook', function () {
     $response = Telegram::setWebhook([
-        'url' => 'https://jobuzall.uz/telegram/webhook',
+        'url' =>'https://jobuzall.uz/telegram/webhook',
         'secret_token' => env('TELEGRAM_WEBHOOK_SECRET'),
         'max_connections' => 50,
         'allowed_updates' => ['message', 'callback_query']

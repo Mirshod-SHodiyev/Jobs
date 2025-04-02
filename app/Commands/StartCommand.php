@@ -37,7 +37,7 @@ class StartCommand
             ])
             ->row([
                 Keyboard::button('Hamkorlikda ishlash'),
-                Keyboard::button("o'quv markaz joylash")
+                Keyboard::button("O'quv markaz joylash")
             ]);
 
         Telegram::sendMessage([
