@@ -149,6 +149,7 @@ class TasdiqlaymanCommand
     {
         Cache::forget("rezume_state_$chatId");
         Cache::forget("rezume_$chatId.username");
+        Cache::forget("rezume_$chatId.job");
         Cache::forget("rezume_$chatId.technology");
         Cache::forget("rezume_$chatId.experience");
         Cache::forget("rezume_$chatId.address");
