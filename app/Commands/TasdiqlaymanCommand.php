@@ -44,8 +44,8 @@ class TasdiqlaymanCommand
 
         $adminChatId = config('app.admin_chat_id');
 
-        $adminMessage = "📢 *Yangi vakansiya:* \n\n";
-        $adminMessage .= "👤 *Ism Familiya:* $workplace\n";
+        $adminMessage = "📢 *Yangi vakansiya:* \n";
+        $adminMessage .= "🏢  *Tashkilot:* $workplace\n";
         $adminMessage .= "🛠  *Texnologiyalar:* $technology\n";
         $adminMessage .= "💼 *Tajriba:* $experience\n";
         $adminMessage .= "📌 *Manzil:* $address\n";
