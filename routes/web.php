@@ -4,16 +4,13 @@ use Illuminate\Support\Facades\Route;
 use Telegram\Bot\Laravel\Facades\Telegram;
 use App\Http\Controllers\HomeController;
 
-// Route::get('/', function () {
-//     return view('welcome');
-// });
+
 
 Route::get('/', function () {
     return view('home');
 });
 
 
-// Webhook o'rnatish uchun endpoint
 Route::get('/setwebhook', function () {
     $response = Telegram::setWebhook([
         'url' =>'https://jobuzall.uz/telegram/webhook',
@@ -25,14 +22,11 @@ Route::get('/setwebhook', function () {
     return response()->json($response);
 });
 
-// Telegram webhook uchun asosiy endpoint
 Route::post('/telegram/webhook', function () {
-    // Secret tokenni tekshirish: Telegram API so'rovi kelganda u shu header orqali yuboriladi
     if (request()->header('X-Telegram-Bot-Api-Secret-Token') !== env('TELEGRAM_WEBHOOK_SECRET')) {
         abort(403, 'Invalid token');
     }
     
-    // Xabarni qayta ishlash
     $update = Telegram::commandsHandler(true);
     
     return response()->json(['status' => 'success']);

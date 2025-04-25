@@ -25,7 +25,6 @@ class TelegramBotController extends Controller
             
             $adminChatId = config('app.admin_chat_id');
 
-            // 1. Admin holatini tekshirish
             $adminState = Cache::get("admin_state_$chatId");
             if ($adminState === 'waiting_for_ads') {
                 $adsCommand = new AdsCommand();
@@ -36,8 +35,6 @@ class TelegramBotController extends Controller
                 return $backCommand->handle($request);
             }
 
-            // 2. Foydalanuvchi holatini aniqlash
-            // Vakansiya va Rezume jarayonlari uchun alohida state prefikslardan foydalanamiz
             $vakansiyaState = Cache::get("vakansiya_state_$chatId", 'default');
             $rezumeState = Cache::get("rezume_state_$chatId", 'default');
             $hamkorState = Cache::get("hamkor_state_$chatId", 'default');
@@ -61,7 +58,6 @@ class TelegramBotController extends Controller
                 return $educationCommand->handle($request);
             }
 
-            // 3. Asosiy buyruqlarni boshqarish
             $lowerText = mb_strtolower($messageText);
             
             if ($lowerText === 'vakansiya joylash') {
@@ -90,13 +86,11 @@ class TelegramBotController extends Controller
                 $tasdiqlamaymanCommand = new TasdiqlamaymanCommand();
                 return $tasdiqlamaymanCommand->handle($request);
             }
-            // 4. Boshqa buyruqlar uchun
             $commandHandler = BotCommandFactory::getCommandHandler($messageText);
             if ($commandHandler) {
                 return $commandHandler->handle($request);
             }
 
-            // 5. Noma'lum buyruq
             return Telegram::sendMessage([
                 'chat_id' => $chatId,
                 'text' => "Noto'g'ri buyruq! Qaytadan urinib ko'ring."

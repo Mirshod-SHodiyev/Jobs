@@ -14,7 +14,6 @@ class TasdiqlamaymanCommand
         $update = Telegram::getWebhookUpdate();
         $chatId = $update->getMessage()->getChat()->getId();
         
-        // Vakansiya yoki Rezume ekanligini aniqlash
         $vakansiyaState = Cache::get("vakansiya_state_$chatId");
         $rezumeState = Cache::get("rezume_state_$chatId");
         

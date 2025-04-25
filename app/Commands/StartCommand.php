@@ -17,7 +17,6 @@ class StartCommand
         $chatId = $chat->getId(); 
         $firstName = $chat->getFirstName(); 
 
-        // Foydalanuvchini bazaga yozish (agar oldin yo‘q bo‘lsa)
         $exists = DB::table('users')->where('chat_id', $chatId)->exists();
         if (!$exists) {
             DB::table('users')->insert([
@@ -27,7 +26,6 @@ class StartCommand
             ]);
         }
 
-        // Tugmalar bilan xabar yuborish
         $keyboard = Keyboard::make()
             ->setResizeKeyboard(true)
             ->setOneTimeKeyboard(true)

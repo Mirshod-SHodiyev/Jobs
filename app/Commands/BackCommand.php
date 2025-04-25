@@ -14,7 +14,6 @@ class BackCommand
         $update = Telegram::getWebhookUpdate();
         $chatId = $update->getMessage()->getChat()->getId();
 
-        // Vakansiya uchun barcha kesh kalitlarini tozalash
         Cache::forget("vakansiya_state_$chatId");
         Cache::forget("vacancy_$chatId.workplace");
         Cache::forget("vacancy_$chatId.technology");
@@ -24,7 +23,6 @@ class BackCommand
         Cache::forget("vacancy_$chatId.salary");
         Cache::forget("vacancy_$chatId.extra");
 
-        // Rezume uchun barcha kesh kalitlarini tozalash
         Cache::forget("rezume_state_$chatId");
         Cache::forget("rezume_$chatId.username");
         Cache::forget("rezume_$chatId.technology");

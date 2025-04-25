@@ -27,8 +27,8 @@ class RezumeCommand
             
             $keyboard = Keyboard::make()
             ->setResizeKeyboard(true)
-            ->setOneTimeKeyboard(true) // Tugmalar yo‘qolmasligi uchun
-            ->row([Keyboard::button("Orqaga")]); // Massiv qilib yozamiz
+            ->setOneTimeKeyboard(true) 
+            ->row([Keyboard::button("Orqaga")]); 
         
             Telegram::sendMessage([
                 'chat_id' => $chatId,
