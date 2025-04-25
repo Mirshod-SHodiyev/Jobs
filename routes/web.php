@@ -10,7 +10,6 @@ Route::get('/', function () {
     return view('home');
 });
 
-
 Route::get('/setwebhook', function () {
     $response = Telegram::setWebhook([
         'url' =>'https://jobuzall.uz/telegram/webhook',
